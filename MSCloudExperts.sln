@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OlympicGames", "OlympicGame
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{02617404-EE34-4EBE-A02E-F66C086C0B5F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IdentityService", "IdentityService\IdentityService.csproj", "{DF720435-5CE6-4E02-A799-DAC9EB8BDE36}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{02617404-EE34-4EBE-A02E-F66C086C0B5F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{02617404-EE34-4EBE-A02E-F66C086C0B5F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{02617404-EE34-4EBE-A02E-F66C086C0B5F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DF720435-5CE6-4E02-A799-DAC9EB8BDE36}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DF720435-5CE6-4E02-A799-DAC9EB8BDE36}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DF720435-5CE6-4E02-A799-DAC9EB8BDE36}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DF720435-5CE6-4E02-A799-DAC9EB8BDE36}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

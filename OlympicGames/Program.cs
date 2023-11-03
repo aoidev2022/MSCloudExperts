@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 
 using OlympicGames.DB;
-using OlympicGames.DTO;
+using OlympicGames.Identity;
 using OlympicGames.Modules;
 
 using System.Reflection;
@@ -14,6 +14,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("db")));
+
+builder.Services.AddJwtBearerAuthentication();
 
 var app = builder.Build();
 

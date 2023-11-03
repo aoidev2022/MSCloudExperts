@@ -1,0 +1,10 @@
+﻿
+dotnet tool install -g dotnet-aspnet-codegenerator
+
+dotnet aspnet-codegenerator identity --files "Account.Register" --project IdentityService
+
+
+
+-------------------
+-- diana@live.com
+-- Admin123.

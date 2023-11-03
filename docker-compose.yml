@@ -21,3 +21,10 @@ services:
     environment:      
       - ACCEPT_EULA=Y
       - SA_PASSWORD=yourStrong(!)Password
+
+  identityservice:
+    image: ${DOCKER_REGISTRY-}identityservice
+    build:
+      context: .
+      dockerfile: IdentityService/Dockerfile
+
