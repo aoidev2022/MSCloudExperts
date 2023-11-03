@@ -1,0 +1,23 @@
+version: '3.4'
+
+name: ms_cloud_experts
+
+services:
+  olympicgames:
+    image: ${DOCKER_REGISTRY-}olympicgames
+    container_name: olympicgames
+    build:
+      context: .
+      dockerfile: OlympicGames/Dockerfile
+    depends_on:
+      - sql_in_dc
+
+  sql_in_dc:
+    image: mcr.microsoft.com/mssql/server:latest
+    container_name: sql_in_dc
+    restart: always
+    ports:
+      - 1440:1433
+    environment:      
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=yourStrong(!)Password

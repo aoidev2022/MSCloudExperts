@@ -1,0 +1,4 @@
+﻿
+dotnet ef migrations add "Added_Sample_Entity" --project OlympicGames
+
+dotnet ef database update --project OlympicGames

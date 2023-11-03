@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.7.34221.43
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OlympicGames", "OlympicGames\OlympicGames.csproj", "{EE050E3D-813F-4E0E-B99C-81D1E0B159F7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OlympicGames", "OlympicGames\OlympicGames.csproj", "{EE050E3D-813F-4E0E-B99C-81D1E0B159F7}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{02617404-EE34-4EBE-A02E-F66C086C0B5F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{EE050E3D-813F-4E0E-B99C-81D1E0B159F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EE050E3D-813F-4E0E-B99C-81D1E0B159F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EE050E3D-813F-4E0E-B99C-81D1E0B159F7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{02617404-EE34-4EBE-A02E-F66C086C0B5F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{02617404-EE34-4EBE-A02E-F66C086C0B5F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{02617404-EE34-4EBE-A02E-F66C086C0B5F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{02617404-EE34-4EBE-A02E-F66C086C0B5F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,4 +1,9 @@
-using AutoMapper;
+using Microsoft.EntityFrameworkCore;
+
+using OlympicGames.DB;
+using OlympicGames.DTO;
+using OlympicGames.Modules;
+
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -8,6 +13,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
+builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("db")));
 
 var app = builder.Build();
 
@@ -18,47 +24,15 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-var tmpData = Enumerable.Range(1, 5)
-    .Select(i => new Sample { Id = i, Competitor = $"Competitor {i}", Country = $"Country {i}", CleanAndJerkScore = 998, SnatchScore = 23, TotalWeightScore = 232 })
-    .ToList();
 
-app.MapGet("/weightlifting", () =>
+Thread.Sleep(5000);
+
+using (var serviceScope = app.Services.CreateScope())
 {
-    return Results.Ok(tmpData);
-});
+    var dbContext = serviceScope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+    dbContext.Database.Migrate();
+}
 
-app.MapGet("/weightlifting/{id}", (int id) =>
-{
-    return Results.Ok(tmpData.Single(q => q.Id == id));
-});
-
-app.MapPut("/weightlifting/{id}", (int id, Sample sample, IMapper mapper) =>
-{
-    var target = tmpData.Single(q => q.Id == id);
-    mapper.Map(sample, target);
-    return Results.NoContent();
-});
-
-app.MapDelete("/weightlifting/{id}", (int id) =>
-{
-    var targetSample = tmpData.SingleOrDefault(q => q.Id == id);
-
-    if (targetSample == null)
-        return Results.NotFound();
-
-    tmpData.Remove(targetSample);
-
-    return Results.NoContent();
-});
+app.RegisterWeightliftingEndpoints();
 
 app.Run();
-
-internal class Sample
-{
-    public int Id { get; set; }
-    public string Competitor { get; set; } = string.Empty;
-    public string Country { get; set; } = string.Empty;
-    public int SnatchScore { get; set; }
-    public int CleanAndJerkScore { get; set; }
-    public int TotalWeightScore { get; set; }
-};
