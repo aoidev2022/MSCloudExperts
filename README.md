@@ -18,3 +18,6 @@ http://localhost:8082/swagger/index.html
 - Access Token URL:  http://localhost:8082/connect/token
 - Client ID:         postman
 - Scope:             olympicgames.fullaccess
+
+## Application Logs and Events
+http://localhost:8083/#/events?range=1d
