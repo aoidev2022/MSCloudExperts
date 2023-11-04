@@ -11,10 +11,10 @@ Main Query
 http://localhost:8081/weightlifting/rank
 
 ## Configure New Token POSTMAN
-Type:              Oauth 2.0
-Grant type:        Authorization Code (With PKCE)
-Callback URL:      urn:ietf:wg:oauth:2.0:oob
-Auth URL:          http://localhost:8082/connect/authorize
-Access Token URL:  http://localhost:8082/connect/token
-Client ID:         postman
-Scope:             olympicgames.fullaccess
+- Type:              Oauth 2.0
+- Grant type:        Authorization Code (With PKCE)
+- Callback URL:      urn:ietf:wg:oauth:2.0:oob
+- Auth URL:          http://localhost:8082/connect/authorize
+- Access Token URL:  http://localhost:8082/connect/token
+- Client ID:         postman
+- Scope:             olympicgames.fullaccess
