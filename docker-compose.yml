@@ -35,5 +35,11 @@ services:
     volumes: 
       - ms_mongodbdata:/data/db
 
+  ms_seq:
+    image: datalust/seq
+    container_name: ms_seq
+    environment:
+      - ACCEPT_EULA=Y 
+
 volumes:
   ms_mongodbdata:

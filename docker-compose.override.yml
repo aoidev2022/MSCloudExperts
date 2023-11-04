@@ -21,3 +21,6 @@ services:
     ports:
       - 27017:27017
   
+  ms_seq:
+    ports:
+      - 8083:80

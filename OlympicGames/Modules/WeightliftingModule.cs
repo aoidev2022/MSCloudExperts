@@ -1,9 +1,12 @@
 ﻿using AutoMapper;
 
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.EntityFrameworkCore;
 
 using OlympicGames.DB;
 using OlympicGames.DTO;
+
+using Serilog;
 
 namespace OlympicGames.Modules;
 
@@ -28,6 +31,8 @@ public static class WeightliftingModule
 
         app.MapGet("/weightlifting/rank", async (ApplicationDbContext db) =>
         {
+            Log.Information("Processing request 'weightlifting/rank'");
+
             var list = (await db.Samples
                 .GroupBy(q => new { q.Competitor.Id, q.Competitor.FullName })
                 .Select(g => new RankSummary

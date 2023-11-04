@@ -5,7 +5,24 @@ using IdentityService.Settings;
 using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Serializers;
 
+using Serilog.Events;
+using Serilog;
+
+var name = typeof(Program).Assembly.GetName().Name;
+Log.Logger = new LoggerConfiguration()
+                .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
+                .Enrich.FromLogContext()
+                .Enrich.WithMachineName()
+                .Enrich.WithProperty("Assembly", name)
+                // available sinks: https://github.com/serilog/serilog/wiki/Provided-Sinks
+                // Seq: https://datalust.co/seq
+                // Seq with Docker: https://docs.datalust.co/docs/getting-started-with-docker
+                .WriteTo.Seq(serverUrl: "http://ms_seq:5341")
+                .WriteTo.Console()
+                .CreateLogger();
+
 var builder = WebApplication.CreateBuilder(args);
+builder.Host.UseSerilog();
 
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
