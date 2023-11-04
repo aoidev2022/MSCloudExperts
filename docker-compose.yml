@@ -3,28 +3,37 @@ version: '3.4'
 name: ms_cloud_experts
 
 services:
-  olympicgames:
-    image: ${DOCKER_REGISTRY-}olympicgames
-    container_name: olympicgames
+  ms_olympicgames:
+    image: olympicgames
+    container_name: ms_olympicgames
     build:
       context: .
       dockerfile: OlympicGames/Dockerfile
     depends_on:
-      - sql_in_dc
+      - ms_mssql
 
-  sql_in_dc:
-    image: mcr.microsoft.com/mssql/server:latest
-    container_name: sql_in_dc
-    restart: always
-    ports:
-      - 1440:1433
-    environment:      
-      - ACCEPT_EULA=Y
-      - SA_PASSWORD=yourStrong(!)Password
-
-  identityservice:
-    image: ${DOCKER_REGISTRY-}identityservice
+  ms_identityservice:
+    image: identityservice
+    container_name: ms_identityservice
     build:
       context: .
       dockerfile: IdentityService/Dockerfile
+    depends_on: 
+      - ms_mongo
 
+  ms_mssql:
+    image: mcr.microsoft.com/mssql/server:latest
+    container_name: ms_mssql
+    restart: always
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=yourStrong(!)Password
+
+  ms_mongo:
+    image: mongo
+    container_name: ms_mongo
+    volumes: 
+      - ms_mongodbdata:/data/db
+
+volumes:
+  ms_mongodbdata:

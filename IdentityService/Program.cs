@@ -1,15 +1,11 @@
-using IdentityService.DTO;
 using IdentityService.Entities;
+using IdentityService.Modules;
 using IdentityService.Settings;
-
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 
 using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Serializers;
 
 var builder = WebApplication.CreateBuilder(args);
-var connectionString = builder.Configuration.GetConnectionString("IdentityServiceIdentityDbContextConnection") ?? throw new InvalidOperationException("Connection string 'IdentityServiceIdentityDbContextConnection' not found.");
 
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -19,12 +15,12 @@ builder.Services.AddAuthorization();
 
 BsonSerializer.RegisterSerializer(new GuidSerializer(MongoDB.Bson.BsonType.String));
 
+var mongoSettings = builder.Configuration.GetSection(nameof(MongoDbSettings)).Get<MongoDbSettings>();
+
 builder.Services
     .AddDefaultIdentity<ApplicationUser>()
     .AddRoles<ApplicationRole>()
-    .AddMongoDbStores<ApplicationUser, ApplicationRole, Guid>($"mongodb://localhost:27017", "IdentityService");
-
-
+    .AddMongoDbStores<ApplicationUser, ApplicationRole, Guid>(mongoSettings.ConnectionString, "IdentityService");
 
 var identityServerSettings = builder.Configuration.GetSection(nameof(IdentityServerSettings)).Get<IdentityServerSettings>();
 
@@ -33,6 +29,8 @@ builder.Services.AddIdentityServer(options =>
     options.Events.RaiseSuccessEvents = true;
     options.Events.RaiseFailureEvents = true;
     options.Events.RaiseErrorEvents = true;
+
+    options.IssuerUri = "http://ms_identityservice";
 })
 .AddAspNetIdentity<ApplicationUser>()
 .AddInMemoryApiScopes(identityServerSettings.ApiScopes)
@@ -64,10 +62,12 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseStaticFiles();
+//app.UseStaticFiles();
 app.UseRouting();
 
 app.UseIdentityServer();
+
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.UseEndpoints(endpoints =>
@@ -76,28 +76,6 @@ app.UseEndpoints(endpoints =>
     endpoints.MapRazorPages();
 });
 
-app.MapGet("/user", (UserManager<ApplicationUser> _userManager) =>
-{
-    var list = _userManager.Users.ToList();
-    return Results.Ok(list);
-});
-
-app.MapPost("/user", async (NewUserInput user, UserManager<ApplicationUser> _userManager) =>
-{
-    ApplicationUser applicationUser = new()
-    {
-        Email = user.Email,
-        UserName = user.Email
-    };
-
-    var result = await _userManager.CreateAsync(applicationUser, user.Password);
-
-    return Results.NoContent();
-});
+app.RegisterUserEndpoints();
 
 app.Run();
-
-internal record WeatherForecast(DateTime Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}

@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Logging;
 
 using OlympicGames.DB;
 using OlympicGames.Identity;
@@ -16,6 +17,9 @@ builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("db")));
 
 builder.Services.AddJwtBearerAuthentication();
+builder.Services.AddAuthorization();
+
+IdentityModelEventSource.ShowPII = true;
 
 var app = builder.Build();
 
@@ -26,8 +30,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-
-Thread.Sleep(5000);
+app.UseAuthentication();
+app.UseAuthorization();
 
 using (var serviceScope = app.Services.CreateScope())
 {

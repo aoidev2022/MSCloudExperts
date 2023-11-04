@@ -15,7 +15,7 @@ public static class WeightliftingModule
         {
             var list = await db.Samples.ToListAsync();
             return Results.Ok(list);
-        });
+        }).RequireAuthorization();
 
         app.MapGet("/weightlifting/{id}", async (int id, ApplicationDbContext db) =>
         {
@@ -24,7 +24,7 @@ public static class WeightliftingModule
             if (sample is null) return Results.NoContent();
 
             return Results.Ok(sample);
-        });
+        }).RequireAuthorization();
 
         app.MapGet("/weightlifting/rank", async (ApplicationDbContext db) =>
         {
@@ -39,14 +39,14 @@ public static class WeightliftingModule
                 .OrderByDescending(q => q.TotalWeight);
 
             return Results.Ok(list);
-        });
+        }).RequireAuthorization();
 
         app.MapPost("/weightlifting", async (Sample sample, ApplicationDbContext db, CancellationToken ct) =>
         {
             await db.Samples.AddAsync(sample);
             await db.SaveChangesAsync(ct);
             return Results.Created($"/weightlifting/{sample.Id}", sample);
-        });
+        }).RequireAuthorization();
 
         app.MapPut("/weightlifting/{id}", async (int id, Sample sample, IMapper mapper, ApplicationDbContext db) =>
         {
@@ -56,7 +56,7 @@ public static class WeightliftingModule
             await db.SaveChangesAsync();
 
             return Results.NoContent();
-        });
+        }).RequireAuthorization();
 
         app.MapDelete("/weightlifting/{id}", async (int id, ApplicationDbContext db) =>
         {
@@ -69,7 +69,7 @@ public static class WeightliftingModule
             await db.SaveChangesAsync();
 
             return Results.NoContent();
-        });
+        }).RequireAuthorization();
 
     }
 }

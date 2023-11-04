@@ -24,6 +24,7 @@ namespace OlympicGames.Identity
                 options.Authority = serviceSettings.Authority;
                 options.Audience = serviceSettings.ServiceName;
                 options.MapInboundClaims = false;
+                options.RequireHttpsMetadata = false;
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
                     NameClaimType = "name",
